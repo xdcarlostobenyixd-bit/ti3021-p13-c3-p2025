@@ -84,3 +84,69 @@ def create_Empleado(rut, nombre, edad, direccion, telefono, email):
         "INSERT INTO Empleado (rut, nombre, edad, direccion, telefono, email)"
         "VALUES (:rut, :nombre, :edad, :direccion, :telefono, :email)"
     )
+    parametros = {
+        "rut": rut,
+        "nombre": nombre,
+        "edad": edad,
+        "direccion": direccion,
+        "telefono": telefono,
+        "email": email
+        
+    }
+
+def create_Departamento(IDdepartamento,nombre,gerente):
+    sql = (
+        "INSERT INT Departamento (IDdepartamento, nombre ,gerente)"
+        "VALUES(:IDdepartamento, :nombre, :gerente)"
+    )
+    parametros = {
+        "IDdepartamento": IDdepartamento,
+        "nombre": nombre,
+        "gerente": gerente
+    }
+    
+
+def create_Proyecto(IDproyecto,Nombre,Descripcion,FechaInicio):
+    sql = (
+        "INSERT INTO Preyecto(IDproyecto, Nombre, Descripcion,FechaInicio)"
+        "VALUES(:IDproyecto, :Nombre, :Descripcion, :FechaInicio)"
+    )
+    parametro = {
+        "IDproyecto": IDproyecto,
+        "Nombre": Nombre,
+        "Descripcion": Descripcion,
+        "FechaInicio": FechaInicio
+    }
+
+def create_Informe(IDinforme):
+    sql = (
+        "INSERT INTO Informe (IDinforme)"
+        "VALUES (:IDproyecto)"
+    )
+    parametros = {
+        "IDinforme": IDinforme
+    }
+
+def create_Usuario(IDusuario,Username,Contraseña):
+    sql = (
+        "INSERT INTO Usuario (IDusuario, Username, Contraseña)"
+        "VALUES (:IDusuario, :Username, :Contraseña)"
+    )
+    parametros = {
+        "IDusuario": IDusuario,
+        "Username": Username,
+        "Contraseña": Contraseña
+    }
+
+def create_RegistrarTiempo(IDRegistrarTiempo,Fecha,Horas,Descripcion):
+    sql = (
+        "INSERT INTO RegistrarTimepo(IDRegistrarTiempo, Fecha, Hora, Descripcion)"
+        "VALUES (:IDRegistrarTiempo, :Fecha, :Hora, :Descripcion)"
+    )
+    parametros = {
+        "IDRegistroTiempo": IDRegistrarTiempo,
+        "Fecha": Fecha,
+        "Horas": Horas,
+        "Descripcion": Descripcion
+    }
+

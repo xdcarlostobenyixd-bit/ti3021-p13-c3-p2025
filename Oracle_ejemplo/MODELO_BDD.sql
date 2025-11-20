@@ -25,13 +25,13 @@ CREATE TABLE Proyecto(
 CREATE TABLE Informe(
     IDinforme INT PRIMARY KEY,
     FOREIGN KEY (InformeProyecto) REFERENCES Proyecto(IDproyecto)
-)
+);
 
 CREATE TABLE Usuario(
     IDusuario INT PRIMARY KEY,
     Username VARCHAR(40),
     Contraseña VARCHAR(40)
-)
+);
 
 CREATE TABLE RegistrarTiempo(
     IDRegistrarTiempo INT NOT NULL,
