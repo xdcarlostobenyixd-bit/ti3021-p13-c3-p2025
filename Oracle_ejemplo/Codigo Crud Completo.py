@@ -32,6 +32,7 @@ def create_all_tables():
         (
             "CREATE TABLE Empleado("
             "IDempleado INTEGER PRIMARY KEY,"
+            "edad INT NOT NULL,"
             "Nombre VARCHAR(60),"
             "Direccion VARCHAR(60),"
             "Telefono INT NOT NULL,"
@@ -58,7 +59,7 @@ def create_all_tables():
         (
             "CREATE TABLE Informe("
             "IDinforme INT PRIMARY KEY,"
-            "InformeProyecto INT NOT NULL"
+            "InformeProyecto INT NOT NULL,"
             "FOREIGN KEY (InformeProyecto) REFERENCES Proyecto(IDproyecto)"
             ")"
         ),
@@ -75,7 +76,7 @@ def create_all_tables():
             "Fecha DATE NOT NULL,"
             "Horas INT NOT NULL,"
             "Descripcion VARCHAR(200),"
-            "Nombre INT NOT NULL"
+            "Nombre INT NOT NULL,"
             "FOREIGN KEY (Nombre) REFERENCES Empleado(IDempleado)"
             ")"
         )
@@ -688,14 +689,13 @@ def menu_Empleado():
         if opcion == "1":
             os.system("cls")
             print("1. Insertar un dato")
-            id = input("Ingrese id de la persona: ")
             rut = input("Ingrese rut de la persona: ")
             nombre = input("Ingrese nombre de la persona: ")
             edad = input("Ingrese edad de la persona: ")
-            direccion = input("Ingrese fecha de direccion de la persona: ")
-            telefono = input("Ingrese fecha de telefono de la persona: ")
-            email = input("Ingrese fecha de email de la persona: ")
-            create_Empleado(id, rut, nombre, edad, direccion, telefono, email)
+            direccion = input("Ingrese direccion de la persona: ")
+            telefono = input("Ingrese telefono de la persona: ")
+            email = input("Ingrese email de la persona: ")
+            create_Empleado(rut, nombre, edad, direccion, telefono, email)
             input("Ingrese ENTER para continuar...")
         elif opcion == "2":
             os.system("cls")
@@ -711,7 +711,6 @@ def menu_Empleado():
         elif opcion == "4":
             os.system("cls")
             print("4. Modificar un dato")
-            id = input("Ingrese id de la persona: ")
             print("[Sólo ingrese los datos a modificar del Empleado]")
             rut = input("Ingrese rut del Empleado (opcional): ")
             nombres = input("Ingrese nombre del Empleado (opcional): ")
@@ -725,7 +724,7 @@ def menu_Empleado():
             if len(direccion.strip()) == 0: direccion = None
             if len(telefono.strip()) == 0: telefono = None
             if len(email.strip()) == 0: email = None
-            update_Empleado(id, rut, nombre, edad, direccion, telefono, email)
+            update_Empleado(rut, nombre, edad, direccion, telefono, email)
             input("Ingrese ENTER para continuar...")
         elif opcion == "5":
             os.system("cls")
