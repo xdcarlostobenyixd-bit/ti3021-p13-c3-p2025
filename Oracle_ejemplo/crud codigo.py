@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from typing import Optional
 load_dotenv() 
 
+import datetime
 
 username = os.getenv("ORACLE_USER") 
 dsn = os.getenv("ORACLE_DSN") 
@@ -80,7 +81,8 @@ def create_all_tables():
 
     for query in tables:
         create_schema(query)
-def create_Empleado(rut, nombre, edad, direccion, telefono, email):
+
+def create_Empleado(rut: str, nombre: str, edad: int, direccion: str, telefono: str, email: str):
     sql = (
         "INSERT INTO Empleado (rut, nombre, edad, direccion, telefono, email)"
         "VALUES (:rut, :nombre, :edad, :direccion, :telefono, :email)"
@@ -103,7 +105,8 @@ def create_Empleado(rut, nombre, edad, direccion, telefono, email):
 
     except oracledb.DatabaseError as error:
         print(f"No se pudo insertar el dato \n {error} \n {sql} \n {parametros}")
-def create_Departamento(IDdepartamento,nombre,gerente):
+
+def create_Departamento(IDdepartamento: int, nombre: str, gerente: str):
     sql = (
         "INSERT INT Departamento (IDdepartamento, nombre ,gerente)"
         "VALUES(:IDdepartamento, :nombre, :gerente)"
@@ -124,12 +127,12 @@ def create_Departamento(IDdepartamento,nombre,gerente):
     except oracledb.DatabaseError as error:
         print(f"No se pudo insertar el dato \n {error} \n {sql} \n {parametros}")
     
-def create_Proyecto(IDproyecto,Nombre,Descripcion,FechaInicio):
+def create_Proyecto(IDproyecto: int, Nombre: str, Descripcion: str, FechaInicio: datetime):
     sql = (
         "INSERT INTO Preyecto(IDproyecto, Nombre, Descripcion,FechaInicio)"
         "VALUES(:IDproyecto, :Nombre, :Descripcion, :FechaInicio)"
     )
-    parametro = {
+    parametros = {
         "IDproyecto": IDproyecto,
         "Nombre": Nombre,
         "Descripcion": Descripcion,
@@ -146,7 +149,7 @@ def create_Proyecto(IDproyecto,Nombre,Descripcion,FechaInicio):
     except oracledb.DatabaseError as error:
         print(f"No se pudo insertar el dato \n {error} \n {sql} \n {parametros}")
 
-def create_Informe(IDinforme):
+def create_Informe(IDinforme: int):
     sql = (
         "INSERT INTO Informe (IDinforme)"
         "VALUES (:IDproyecto)"
@@ -165,7 +168,7 @@ def create_Informe(IDinforme):
     except oracledb.DatabaseError as error:
         print(f"No se pudo insertar el dato \n {error} \n {sql} \n {parametros}")
 
-def create_Usuario(IDusuario,Username,Contraseña):
+def create_Usuario(IDusuario: int, Username: str, Contraseña: str):
     sql = (
         "INSERT INTO Usuario (IDusuario, Username, Contraseña)"
         "VALUES (:IDusuario, :Username, :Contraseña)"
@@ -186,7 +189,7 @@ def create_Usuario(IDusuario,Username,Contraseña):
     except oracledb.DatabaseError as error:
         print(f"No se pudo insertar el dato \n {error} \n {sql} \n {parametros}")
 
-def create_RegistrarTiempo(IDRegistrarTiempo,Fecha,Horas,Descripcion):
+def create_RegistrarTiempo(IDRegistrarTiempo: int, Fecha: int, Horas: int, Descripcion: str):
     sql = (
         "INSERT INTO RegistrarTimepo(IDRegistrarTiempo, Fecha, Hora, Descripcion)"
         "VALUES (:IDRegistrarTiempo, :Fecha, :Hora, :Descripcion)"
@@ -400,6 +403,7 @@ def update_Empleado(
 ):
     modificaciones = []
     parametros = {"id": id}
+
     if rut is not None:
         ([]).append("rut =: rut")
         parametros["rut"] = rut
@@ -661,7 +665,7 @@ def delete_RegistroTiempo(id: int):
 
 #Tablero
 
-def menu_personas():
+def menu_Empleado():
     while True:
         os.system("cls")
         print(
@@ -694,7 +698,7 @@ def menu_personas():
         elif opcion == "2":
             os.system("cls")
             print("2. Consultar todos los datos")
-            read_personas()
+            read_Empleado()
             input("Ingrese ENTER para continuar...")
         elif opcion == "3":
             os.system("cls")
@@ -736,6 +740,250 @@ def menu_personas():
             print("Opción incorrecta, intente nuevamente.")
             input("Ingrese ENTER para continuar...")
 
+def menu_Departamento():
+    while True:
+        os.system("cls")
+        print("""
+                ====================================
+                |     MENÚ DEPARTAMENTO            |
+                |----------------------------------|
+                | 1. Insertar                      |
+                | 2. Ver todos                     |
+                | 3. Buscar por ID                 |
+                | 4. Actualizar                    |
+                | 5. Eliminar                      |
+                | 0. Volver                        |
+                |----------------------------------|
+                | * La tabla empleado necesita al  |
+                | menos un registro creado en la   |
+                | tabla Proyecto y Departamentos.  |
+                ====================================
+        """)
+
+        op = input("Opción: ")
+
+        if op == "1":
+            ID = int(input("ID: "))
+            Nombre = input("Nombre: ")
+            Gerente = input("Gerente: ")
+            create_Departamento(ID, Nombre, Gerente)
+
+        elif op == "2":
+            read_Departamento()
+            input("ENTER...")
+
+        elif op == "3":
+            ID = int(input("ID: "))
+            read_Departamento_by_id(ID)
+            input("ENTER...")
+
+        elif op == "4":
+            ID = int(input("ID: "))
+            Nombre = input("Nuevo nombre: ") or None
+            Gerente = input("Nuevo gerente: ") or None
+            update_Departamento(ID, Nombre, Gerente)
+
+        elif op == "5":
+            ID = int(input("ID: "))
+            delete_Departamentos(ID)
+
+        elif op == "0":
+            return
+        
+def menu_Proyecto():
+    while True:
+        os.system("cls")
+        print("""
+               ====================================
+                |     MENÚ PROYECTO                |
+                |----------------------------------|
+                | 1. Insertar                      |
+                | 2. Ver todos                     |
+                | 3. Buscar por ID                 |
+                | 4. Actualizar                    |
+                | 5. Eliminar                      |
+                | 0. Volver                        |
+                |----------------------------------|
+                | * La tabla empleado necesita al  |
+                | menos un registro creado en la   |
+                | tabla Proyecto y Departamentos.  |
+                ====================================
+        """)
+
+        op = input("Opción: ")
+
+        if op == "1":
+            ID = int(input("ID: "))
+            Nombre = input("Nombre: ")
+            Descripcion = input("Descripción: ")
+            Fecha = input("Fecha Inicio (YYYY-MM-DD): ")
+            create_Proyecto(ID, Nombre, Descripcion, Fecha)
+
+        elif op == "2":
+            read_Proyecto()
+            input("ENTER...")
+
+        elif op == "3":
+            ID = int(input("ID: "))
+            read_Proyecto_by_id(ID)
+            input("ENTER...")
+
+        elif op == "4":
+            ID = int(input("ID: "))
+            Nombre = input("Nuevo nombre: ") or None
+            Descripcion = input("Nueva descripción: ") or None
+            Fecha = input("Nueva fecha: ") or None
+            update_Proyecto(ID, Nombre, Descripcion, Fecha)
+
+        elif op == "5":
+            ID = int(input("ID: "))
+            delete_Proyecto(ID)
+
+        elif op == "0":
+            return
+
+def menu_Informe():
+    while True:
+        os.system("cls")
+        print("""
+        ===== MENÚ INFORME =====
+        1. Insertar
+        2. Ver todos
+        3. Buscar por ID
+        4. Actualizar
+        5. Eliminar
+        0. Volver
+        """)
+
+        op = input("Opción: ")
+
+        if op == "1":
+            ID = int(input("ID: "))
+            IDp = int(input("ID del proyecto: "))
+            Descripcion = input("Descripción: ")
+            create_Informe(ID, IDp, Descripcion)
+
+        elif op == "2":
+            read_Informe()
+            input("ENTER...")
+
+        elif op == "3":
+            ID = int(input("ID: "))
+            read_Informe_by_id(ID)
+            input("ENTER...")
+
+        elif op == "4":
+            ID = int(input("ID: "))
+            IDp = input("Nuevo ID proyecto: ") or None
+            Desc = input("Nueva descripción: ") or None
+            update_Informe(ID, int(IDp) if IDp else None, Desc)
+
+        elif op == "5":
+            ID = int(input("ID: "))
+            delete_Informe(ID)
+
+        elif op == "0":
+            return
+
+
+def menu_Usuario():
+    while True:
+        os.system("cls")
+        print("""
+        ===== MENÚ USUARIO =====
+        1. Insertar
+        2. Ver todos
+        3. Buscar por ID
+        4. Actualizar
+        5. Eliminar
+        0. Volver
+        """)
+
+        op = input("Opción: ")
+
+        if op == "1":
+            ID = int(input("ID: "))
+            User = input("Nombre usuario: ")
+            Contra = input("Contraseña: ")
+            create_Usuario(ID, User, Contra)
+
+        elif op == "2":
+            read_Usuario()
+            input("ENTER...")
+
+        elif op == "3":
+            ID = int(input("ID: "))
+            read_Usuario_by_id(ID)
+            input("ENTER...")
+
+        elif op == "4":
+            ID = int(input("ID: "))
+            User = input("Nuevo usuario: ") or None
+            Contra = input("Nueva contraseña: ") or None
+            update_Usuario(ID, User, Contra)
+
+        elif op == "5":
+            ID = int(input("ID: "))
+            delete_Usuario(ID)
+
+        elif op == "0":
+            return
+
+
+def menu_Tiempo():
+    while True:
+        os.system("cls")
+        print("""
+        ===== MENÚ REGISTRAR TIEMPO =====
+        1. Insertar
+        2. Ver todos
+        3. Buscar por ID
+        4. Actualizar
+        5. Eliminar
+        0. Volver
+        """)
+
+        op = input("Opción: ")
+
+        if op == "1":
+            ID = int(input("ID: "))
+            IDempleado = int(input("ID Empleado: "))
+            Fecha = input("Fecha (YYYY-MM-DD): ")
+            Horas = int(input("Horas: "))
+            Desc = input("Descripción: ")
+            create_RegistrarTiempo(ID, IDempleado, Fecha, Horas, Desc)
+
+        elif op == "2":
+            read_RegistrarTiempo()
+            input("ENTER...")
+
+        elif op == "3":
+            ID = int(input("ID: "))
+            read_RegistrarTiempo_by_id(ID)
+            input("ENTER...")
+
+        elif op == "4":
+            ID = int(input("ID: "))
+            IDE = input("Nuevo ID empleado: ") or None
+            Fecha = input("Nueva fecha: ") or None
+            Horas = input("Nuevas horas: ") or None
+            Desc = input("Nueva descripción: ") or None
+            update_RegistroTiempo(
+                ID,
+                int(IDE) if IDE else None,
+                Fecha,
+                int(Horas) if Horas else None,
+                Desc
+            )
+
+        elif op == "5":
+            ID = int(input("ID: "))
+            delete_RegistroTiempo(ID)
+
+        elif op == "0":
+            return
+
+
 def main():
     while True:
         os.system("cls")
@@ -764,16 +1012,33 @@ def main():
             input("Ingrese ENTER para continuar...")
         elif opcion == "2":
             menu_Empleado()
+
         elif opcion == "3":
-            pass
-        elif opcion == "4":
-            pass
-        elif opcion == "0":
-            pass
-        else:
             os.system("cls")
-            print("Opción incorrecta, intente nuevamente.")
+            try:
+                menu_Departamento()
+            except Exception as e:
+                print(f"Error gestionando Departamento: {e}")
+                input("Ingrese ENTER para continuar...")
+            
+        elif opcion == "4":
+            os.system("cls")
+            try:
+                menu_Proyecto()
+            except Exception as e:
+                    print(f"Error gestionando Proyecto: {e}")
             input("Ingrese ENTER para continuar...")
+        
+
+        elif opcion == "0":
+            os.system("cls")
+            print("Saliendo del sistema...")
+        break 
+        
+    else:
+        os.system("cls")
+        print("Opción incorrecta, intente nuevamente.")
+        input("Ingrese ENTER para continuar...")
 
 
 if __name__ == "__main__":
