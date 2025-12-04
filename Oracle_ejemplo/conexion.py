@@ -18,4 +18,4 @@ with oracledb.connect(
         sql = "select sysdate from dual"
         for row in cursor.execute(sql):
              for column in row:
-                print(column) 
+                print(column)

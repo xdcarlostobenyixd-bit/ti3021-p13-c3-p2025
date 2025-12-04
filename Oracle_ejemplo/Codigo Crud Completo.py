@@ -58,6 +58,7 @@ def create_all_tables():
         (
             "CREATE TABLE Informe("
             "IDinforme INT PRIMARY KEY,"
+            "InformeProyecto INT NOT NULL"
             "FOREIGN KEY (InformeProyecto) REFERENCES Proyecto(IDproyecto)"
             ")"
         ),
@@ -74,6 +75,7 @@ def create_all_tables():
             "Fecha DATE NOT NULL,"
             "Horas INT NOT NULL,"
             "Descripcion VARCHAR(200),"
+            "Nombre INT NOT NULL"
             "FOREIGN KEY (Nombre) REFERENCES Empleado(IDempleado)"
             ")"
         )
